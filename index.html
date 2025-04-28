@@ -27,6 +27,69 @@
   </style>
 </head>
 <body class="flex flex-col justify-center items-center min-h-screen bg-gray-100">
+<section class="w-full bg-gray-50 py-12 px-4">
+  <h2 class="text-2xl font-bold text-center text-gray-800 mb-10">✨ Erstelle ein neues Regal oder wähle ein fertiges Modell und passe es individuell an ✨</h2>
+
+  <div class="relative max-w-7xl mx-auto">
+    <button onclick="scrollGalleryLeft()" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white shadow p-2 rounded-full z-10">◀</button>
+    <div id="galleryWrapper" class="overflow-x-auto whitespace-nowrap scrollbar-hide px-10">
+      <div id="scrollGallery" class="inline-flex space-x-4 transition-transform duration-500 ease-in-out">
+        <div class="bg-white rounded-xl shadow p-2 flex flex-col items-center transition-transform transform hover:scale-110 text-center min-w-[200px]">
+          <img src="img/1a.jpg" alt="Inspiracja 1" onclick="presetConfig(80, 44, 10, 5, 'hanging')" />
+        </div>
+        <div class="bg-white rounded-xl shadow p-2 flex flex-col items-center transition-transform transform hover:scale-110 text-center min-w-[200px]">
+          <img src="img/2a.jpg" alt="Inspiracja 2" onclick="presetConfig(60, 44, 10, 3, 'hanging', true)" />
+        </div>
+        <div class="bg-white rounded-xl shadow p-2 flex flex-col items-center transition-transform transform hover:scale-110 text-center min-w-[200px]">
+          <img src="img/3a.jpg" alt="Inspiracja 3" onclick="presetConfig(40, 44, 10, 2, 'hanging', true)" />
+        </div>
+        <div class="bg-white rounded-xl shadow p-2 flex flex-col items-center transition-transform transform hover:scale-110 text-center min-w-[200px]">
+          <img src="img/4a.jpg" alt="Inspiracja 4" onclick="presetConfig(40, 60, 10, 2, 'hanging')" />
+        </div>
+        <div class="bg-white rounded-xl shadow p-2 flex flex-col items-center transition-transform transform hover:scale-110 text-center min-w-[200px]">
+          <img src="img/5a.jpg" alt="Inspiracja 5" onclick="presetConfig(40, 60, 10, 2, 'standing')" />
+        </div>
+        <div class="bg-white rounded-xl shadow p-2 flex flex-col items-center transition-transform transform hover:scale-110 text-center min-w-[200px]">
+          <img src="img/6a.jpg" alt="Inspiracja 6" onclick="presetConfig(40, 60, 10, 2, 'standing', false, true)" />
+        </div>
+        <div class="bg-white rounded-xl shadow p-2 flex flex-col items-center transition-transform transform hover:scale-110 text-center min-w-[200px]">
+          <img src="img/7a.jpg" alt="Inspiracja 7" onclick="presetConfig(40, 60, 10, 2, 'standing', true, true)" />
+        </div>
+        <div class="bg-white rounded-xl shadow p-2 flex flex-col items-center transition-transform transform hover:scale-110 text-center min-w-[200px]">
+          <img src="img/8a.jpg" alt="Inspiracja 8" onclick="presetConfig(40, 60, 15, 2, 'standing', true, true)" />
+        </div>
+        <div class="bg-white rounded-xl shadow p-2 flex flex-col items-center transition-transform transform hover:scale-110 text-center min-w-[200px]">
+          <img src="img/9a.jpg" alt="Inspiracja 9" onclick="presetConfig(40, 60, 10, 2, 'standing', false, true)" />
+        </div>
+        <div class="bg-white rounded-xl shadow p-2 flex flex-col items-center transition-transform transform hover:scale-110 text-center min-w-[200px]">
+          <img src="img/10a.jpg" alt="Inspiracja 10" onclick="presetConfig(40, 44, 10, 2, 'standing', true, true)" />
+        </div>
+      </div>
+    </div>
+    <button onclick="scrollGalleryRight()" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white shadow p-2 rounded-full z-10">▶</button>
+  </div>
+</section>
+
+<style>
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>
+
+<script>
+  function scrollGalleryLeft() {
+    const container = document.getElementById('galleryWrapper');
+    container.scrollBy({ left: -220, behavior: 'smooth' });
+  }
+  function scrollGalleryRight() {
+    const container = document.getElementById('galleryWrapper');
+    container.scrollBy({ left: 220, behavior: 'smooth' });
+  }
+</script>
   <!-- Block „Wie bestelle ich?“ (mobile) -->
   <div class="w-full p-4 bg-gray-50 border rounded mb-4 md:hidden">
     <h2 class="text-lg font-bold text-black mb-4">Wie bestelle ich?</h2>
@@ -170,8 +233,77 @@
     }
 
     function copyOrderSummary(){const code=document.getElementById("orderCodeVisible").textContent;const price=document.getElementById("priceSummary").textContent;navigator.clipboard.writeText(code).then(()=>{alert(`✅ Fertig!\🔄 Gehe jetzt zurück zu Etsy und bestelle zum Betrag von ${price}\📋 Füge den Bestellcode in das Feld „Nachricht an den Verkäufer“ ein`);window.location.href="https://shelvespl.etsy.com/listing/1906622025";});}
+/* ---------- PRESET CONFIGURATION FROM IMAGE CLICK ---------- */
+    function presetConfig(height, width, depth, shelfCount, shelfType = "standing", noTopShelf = false, noBottomShelf = false) {
+  // Set width
+  if (["34", "44", "50", "60"].includes(width.toString())) {
+    document.getElementById("width").value = width;
+    document.getElementById("width").dispatchEvent(new Event('change'));
+  } else {
+    document.getElementById("width").value = "custom";
+    document.getElementById("customWidthInput").value = width;
+    document.getElementById("customWidthInput").dispatchEvent(new Event('input'));
+  }
 
-    /* ---------- CENNIK ---------- */
+  // Set height
+  document.getElementById("height").value = height;
+  document.getElementById("height").dispatchEvent(new Event('change'));
+
+  // Set depth
+  setTimeout(() => {
+    document.getElementById("depth").value = depth;
+    document.getElementById("depth").dispatchEvent(new Event('change'));
+
+    // Set shelf count
+    document.getElementById("shelfCount").value = shelfCount;
+    document.getElementById("shelfCount").dispatchEvent(new Event('change'));
+
+    // Default colors
+    if (document.getElementById("sideColor").value === "") {
+      document.getElementById("sideColor").value = "#8B5A2B";
+      document.getElementById("sideColor").dispatchEvent(new Event('change'));
+    }
+    if (document.getElementById("shelfColor").value === "") {
+      document.getElementById("shelfColor").value = "#8B5A2B";
+      document.getElementById("shelfColor").dispatchEvent(new Event('change'));
+    }
+
+    // Set shelf type (wisząca / stojąca)
+    document.getElementById("shelfType").value = shelfType;
+    document.getElementById("shelfType").dispatchEvent(new Event('change'));
+
+    // Jeśli ma być bez górnej
+    if (noTopShelf) {
+      setTimeout(() => {
+        const noTopCheckbox = document.getElementById('noTopShelf');
+        if (noTopCheckbox) {
+          noTopCheckbox.checked = true;
+          noTopCheckbox.dispatchEvent(new Event('change'));
+        }
+      }, 200);
+    }
+
+    // Jeśli ma być bez dolnej (tylko dla stojących)
+    if (noBottomShelf) {
+      setTimeout(() => {
+        const noBottomCheckbox = document.getElementById('noBottomShelf');
+        if (noBottomCheckbox) {
+          noBottomCheckbox.checked = true;
+          noBottomCheckbox.dispatchEvent(new Event('change'));
+        }
+      }, 200);
+    }
+
+    // Scroll do konfiguratora
+    document.querySelector('.p-6.bg-white.shadow-lg.rounded-lg').scrollIntoView({
+      behavior: 'smooth'
+    });
+
+  }, 100);
+}
+
+    
+/* ---------- CENNIK ---------- */
     const pricing={"34":{"40":{"10":{"2":48},"15":{"2":58}},"60":{"10":{"2":55,"3":59},"15":{"2":59,"3":69}},"80":{"10":{"2":65,"3":69,"4":74,"5":79},"15":{"2":75,"3":79,"4":84,"5":89}}},"44":{"40":{"10":{"2":49},"15":{"2":59}},"60":{"10":{"2":57,"3":65},"15":{"2":67,"3":75}},"80":{"10":{"2":75,"3":79,"4":84,"5":89},"15":{"2":85,"3":89,"4":94,"5":99}}},"50":{"40":{"10":{"2":59},"15":{"2":69}},"60":{"10":{"2":67,"3":75},"15":{"2":77,"3":85}},"80":{"10":{"2":85,"3":89,"4":94,"5":99}}},"60":{"40":{"10":{"2":69},"15":{"2":79}},"60":{"10":{"2":77,"3":85},"15":{"2":87,"3":95}},"80":{"10":{"2":94,"3":99,"4":104,"5":109}}}};
 
     /* ---------- DYNAMICZNE OPCJE GŁĘBOKOŚCI ---------- */
